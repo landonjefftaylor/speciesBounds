@@ -1,0 +1,23 @@
+species R init 20
+species L init 2
+species RL init 0
+species G init 20
+species GA init 0
+species GBG init 0
+species GD init 0
+target GBG = 20
+reaction R3
+    consume R 1
+    consume L 1
+    produce RL 1
+    produce L 1
+    const 0.042
+reaction R5
+    consume RL 1
+    consume G 1
+    produce GA 1
+    produce GBG 1
+    const 0.011
+reaction R8
+    produce RL 1
+    const 3.210

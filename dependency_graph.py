@@ -30,19 +30,6 @@ class DepNode:
             s = s + " " + str(self.executions) + " times to produce " + str(self.species_desired)
 
         s = s + "\n"
-
-        # s = s + " --> { "
-
-        # for d in self.dependencies:
-        #     s = s + str(self.dependencies[d].reaction) + str(self.dependencies[d].species_desired) + " "
-
-        # if len(self.dependencies) == 0:
-        #     if self.enabled:
-        #         s = s + "enabled "
-        #     else:
-        #         s = s + "NOT ENABLED -- CANNOT PRODUCE " + str(self.species_desired) + " "
-
-        # s = s + "}\n"
         
         for d in self.dependencies:
             s = s + self.dependencies[d].to_string(depth+1)
@@ -153,15 +140,17 @@ def make_dependency_graph(init, target, reactions, inputNode=None, parents=[], d
                 modified_target[s] = (s, ">=", "0")
 
         node.enabled = True
-        for c in node.reaction.consume:
-            if (node.reaction.dep_executions * int(c[1])) > int(modified_init[c[0]]): #THIS LINE CHANGED: was dep*c<modinit 
-                node.enabled = False
-                if DEBUG:
-                    print(lineStart, "node not enabled at point 1")
-                    print(lineStart, "with dep_executions", node.reaction.dep_executions)
-                    print(lineStart, "and c =", c[0], c[1])
-                    print(lineStart, "and modified_init[c[0]] =", modified_init[c[0]])
-                break
+        # The following code was removed because it was reduntant; we have 
+        # already checked the executions against the initial state at this point.
+        # for c in node.reaction.consume:
+        #     if (node.reaction.dep_executions * int(c[1])) > int(modified_init[c[0]]):
+        #         node.enabled = False
+        #         if DEBUG:
+        #             print(lineStart, "node not enabled at point 1")
+        #             print(lineStart, "with dep_executions", node.reaction.dep_executions)
+        #             print(lineStart, "and c =", c[0], c[1])
+        #             print(lineStart, "and modified_init[c[0]] =", modified_init[c[0]])
+        #         break
         for s in modified_init:
             if modified_init[s] < 0:
                 node.enabled = False
@@ -231,41 +220,48 @@ def make_dependency_graph(init, target, reactions, inputNode=None, parents=[], d
             print(lineStart, "modified_init[modified_target[t][0]]", modified_init[modified_target[t][0]])
             print(lineStart, "delta_target", delta_target)
         for r in reactions:
-            # if r in modified_parents:
-            #     continue
+            add_execs = False
+
             # if we need to generate a species
             if delta_target > 0: 
+                needed_execs = {}
                 for s in reactions[r].produce:
                     if modified_target[t][0] == s[0]:
                         if r not in node.dependencies.keys():
                             node.dependencies[r] = DepNode(reactions[r])
-                        needed_execs = int(math.ceil(float(delta_target) / float(s[1])))
+                        needed_execs[s] = int(math.ceil(float(delta_target) / float(s[1])))
+                        add_execs = True
                             # s[1] is the stoichiometric constant for the species
-                        node.dependencies[r].executions += needed_execs
-                        node.dependencies[r].reaction.dep_executions += needed_execs
-                        node.dependencies[r].parents += modified_parents
-                        node.dependencies[r].species_desired.append(tuple([s[0], delta_target]))
-
-                        if DEBUG:
-                            print(lineStart, "Reaction", r, "generates", node.dependencies[r].species_desired)
-                            print(lineStart, "Added dependency", node.dependencies[r].reaction.name)
-                            print(lineStart, "with executions", node.dependencies[r].executions)
+            # if we need to consume a species
             elif decreasing: 
                 for s in reactions[r].consume:
                     if modified_target[t][0] == s[0]:
                         if r not in node.dependencies.keys():
                             node.dependencies[r] = DepNode(reactions[r])
-                        needed_execs = int(math.ceil(float(0-delta_target) / float(s[1])))
+                        needed_execs[s] = int(math.ceil(float(0-delta_target) / float(s[1])))
+                        add_execs = True
                             # s[1] is the stoichiometric constant for the species
-                        node.dependencies[r].executions += needed_execs
-                        node.dependencies[r].reaction.dep_executions += needed_execs
-                        node.dependencies[r].parents += modified_parents
-                        node.dependencies[r].species_desired.append(tuple([s[0], delta_target]))
+            
+            if add_execs:
+                # find the species that needs the most executions
+                max_execs = 0
+                max_exec_key = ""
+                for s in needed_execs.keys():
+                    if needed_execs[s] > total_execs:
+                        total_execs = needed_execs[s]
+                        max_exec_key = s
 
-                        if DEBUG:
-                            print(lineStart, "Reaction", r, "consumes", node.dependencies[r].species_desired)
-                            print(lineStart, "Added dependency", node.dependencies[r].reaction.name)
-                            print(lineStart, "with executions", node.dependencies[r].executions)
+                node.dependencies[r].executions += max_execs
+                node.dependencies[r].reaction.dep_executions += max_execs
+                node.dependencies[r].parents += modified_parents
+                node.dependencies[r].species_desired.append(tuple([s[0], delta_target]))
+
+                if DEBUG:
+                    print(lineStart, "Reaction", r, "gen/con", node.dependencies[r].species_desired)
+                    print(lineStart, "Added dependency", node.dependencies[r].reaction.name)
+                    print(lineStart, "with executions", node.dependencies[r].executions)
+                    print(lineStart, "with max exec", max_exec_key, "at", max_execs)
+
 
     if DEBUG:
         for d in node.dependencies:

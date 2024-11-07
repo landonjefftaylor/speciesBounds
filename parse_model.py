@@ -5,7 +5,7 @@ class Reaction:
         self.consume = []
         self.produce = []
         self.const = 0.00
-        self.dep_executions = 0
+        # self.dep_executions = 0
 
     def __str__(self) -> str:
         # s = ""

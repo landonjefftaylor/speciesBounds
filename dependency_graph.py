@@ -165,7 +165,7 @@ def make_dependency_graph(init, target, reactions, inputNode=None, parents=[], d
     # base case
     if node.enabled:
         if node.reaction:
-            print(lineStart, "Initially enabled:", node.reaction.name, "with", node.reaction.dep_executions, "executions")
+            print(lineStart, "Initially enabled:", node.reaction.name, "with", node.executions, "executions")
         else:
             print(lineStart, "Initially enabled: target")
         if DEBUG:
@@ -247,12 +247,16 @@ def make_dependency_graph(init, target, reactions, inputNode=None, parents=[], d
                 max_execs = 0
                 max_exec_key = ""
                 for s in needed_execs.keys():
-                    if needed_execs[s] > total_execs:
-                        total_execs = needed_execs[s]
+                    if needed_execs[s] > max_execs:
+                        max_execs = needed_execs[s]
                         max_exec_key = s
+                
+                if DEBUG:
+                    print("needed_execs", needed_execs)
+                    print("max_execs", max_execs)
 
-                node.dependencies[r].executions += max_execs
-                node.dependencies[r].reaction.dep_executions += max_execs
+                node.dependencies[r].executions = max(max_execs, node.dependencies[r].executions)
+                # node.dependencies[r].reaction.dep_executions += max_execs
                 node.dependencies[r].parents += modified_parents
                 node.dependencies[r].species_desired.append(tuple([s[0], delta_target]))
 

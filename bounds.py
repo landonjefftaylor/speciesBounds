@@ -80,7 +80,7 @@ if dependency:
         if r not in reaction_list:
             reaction.pop(r)
 
-# exit()
+exit()
 
 print(80*"-")
 print("Building the yices model")

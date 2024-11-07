@@ -154,12 +154,12 @@ def make_dependency_graph(init, target, reactions, inputNode=None, parents=[], d
 
         node.enabled = True
         for c in node.reaction.consume:
-            if (node.reaction.dep_executions * int(c[1])) < int(modified_init[c[0]]):
+            if (node.reaction.dep_executions * int(c[1])) > int(modified_init[c[0]]): #THIS LINE CHANGED: was dep*c<modinit 
                 node.enabled = False
                 if DEBUG:
                     print(lineStart, "node not enabled at point 1")
                     print(lineStart, "with dep_executions", node.reaction.dep_executions)
-                    print(lineStart, "and c[1] =", c[1])
+                    print(lineStart, "and c =", c[0], c[1])
                     print(lineStart, "and modified_init[c[0]] =", modified_init[c[0]])
                 break
         for s in modified_init:

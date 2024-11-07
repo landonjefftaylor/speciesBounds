@@ -1,0 +1,245 @@
+species G_d init 9
+species md init 0
+species d init 0
+species S_A init 40
+species g_Ap init 0
+species g_An init 0
+species c_Ap init 0
+species c_An init 0
+species D_A init 40
+species C_Ap init 0
+species C_An init 0
+species C_Ap_An init 0
+species g_Bp init 0
+species c_Bp init 0
+species g_Bn init 0
+species c_Bn init 0
+species D_B init 40
+species C_Bp init 0
+species C_Bn init 0
+species C_Bp_Bn init 0
+species g_Cp init 0
+species c_Cp init 0
+species g_Cn init 0
+species c_Cn init 0
+species D_C init 40
+species C_Cp init 0
+species C_Cn init 0
+species C_Cp_Cn init 0
+species m_C init 0
+species Y_C init 0
+
+target Y_C = 5
+
+reaction R1
+  consume G_d 1
+  produce md 1
+  const 0.0000931
+
+reaction R2
+  consume md 1
+  produce d 1
+  const 3.59
+
+reaction R3
+  consume d 1
+  const 0.000416
+
+reaction R4
+  consume md 1
+  const 0.0067
+
+reaction R5
+  consume S_A 1
+  produce g_An 1
+  const 0.0000912
+
+reaction R6
+  consume g_An 1
+  const 0.0067
+
+reaction R7
+  consume d 1
+  consume g_Ap 1
+  produce c_Ap 1
+  const 0.001848
+
+reaction R8
+  consume c_Ap 1
+  produce d 1
+  produce g_Ap 1
+  const 0.000416
+
+reaction R9
+  consume d 1
+  consume g_An 1
+  produce c_An 1
+  const 0.001848
+
+reaction R10
+  consume c_An 1
+  produce d 1
+  produce g_An 1
+  const 0.000416
+
+reaction R11
+  consume c_Ap 1
+  consume D_A 1
+  produce C_Ap 1
+  const 0.0000483
+
+reaction R12
+  consume C_Ap 1
+  produce c_Ap 1
+  produce D_A 1
+  const 0.000416
+
+reaction R13
+  consume c_An 1
+  consume D_A 1
+  produce C_An 1
+  const 0.0000483
+
+reaction R14
+  consume C_An 1
+  produce c_An 1
+  produce D_A 1
+  const 0.000416
+
+reaction R15
+  consume c_An 1
+  consume C_Ap 1
+  produce C_Ap_An 1
+  const 0.0000483
+
+reaction R16
+  consume C_Ap_An 1
+  produce c_An 1
+  produce C_Ap 1
+  const 0.000416
+
+reaction R17
+  consume c_Ap 1
+  consume C_An 1
+  produce C_Ap_An 1
+  const 0.0000483
+
+reaction R18
+  consume C_Ap_An 1
+  produce c_Ap 1
+  produce C_An 1
+  const 0.000416
+
+reaction R19
+  consume D_A 1
+  produce g_Cp 1
+  const 0.019
+
+reaction R20
+  consume g_Cp 1
+  const 0.0067
+
+reaction R21
+  consume d 1
+  consume g_Cp 1
+  produce c_Cp 1
+  const 0.001848
+
+reaction R22
+  consume c_Cp 1
+  produce d 1
+  produce g_Cp 1
+  const 0.000416
+
+reaction R23
+  consume d 1
+  consume g_Cn 1
+  produce c_Cn 1
+  const 0.001848
+
+reaction R24
+  consume c_Cn 1
+  produce d 1
+  produce g_Cn 1
+  const 0.000416
+
+reaction R25
+  consume c_Cp 1
+  consume D_C 1
+  produce C_Cp 1
+  const 0.0000483
+
+reaction R26
+  consume C_Cp 1
+  produce c_Cp 1
+  produce D_C 1
+  const 0.000416
+
+reaction R27
+  consume c_Cn 1
+  consume D_C 1
+  produce C_Cn 1
+  const 0.0000483
+
+reaction R28
+  consume C_Cn 1
+  produce c_Cn 1
+  produce D_C 1
+  const 0.000416
+
+reaction R29
+  consume c_Cn 1
+  consume C_Cp 1
+  produce C_Cp_Cn 1
+  const 0.0000483
+
+reaction R30
+  consume C_Cp_Cn 1
+  produce c_Cn 1
+  produce C_Cp 1
+  const 0.000416
+
+reaction R31
+  consume c_Cp 1
+  consume C_Cn 1
+  produce C_Cp_Cn 1
+  const 0.0000483
+
+reaction R32
+  consume C_Cp_Cn 1
+  produce c_Cp 1
+  produce C_Cn 1
+  const 0.000416
+
+reaction R33
+  consume D_C 1
+  produce m_C 1
+  const 0.0016
+
+reaction R34
+  consume C_Cp 1
+  produce m_C 1
+  const 0.0352
+
+reaction R35
+  consume C_Cp_Cn 1
+  produce m_C 1
+  const 0.00391
+
+reaction R36
+  consume C_Cn 1
+  produce m_C 1
+  const 0.0001778
+
+reaction R37
+  consume m_C 1
+  produce Y_C 1
+  const 1.22
+
+reaction R38
+  consume m_C 1
+  const 0.0067
+
+reaction R39
+  consume Y_C 1
+  const 0.000416

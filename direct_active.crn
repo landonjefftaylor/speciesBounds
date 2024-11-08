@@ -33,11 +33,13 @@ target Y_C = 5
 
 reaction R1
   consume G_d 1
+  produce G_d 1
   produce md 1
   const 0.0000931
 
 reaction R2
   consume md 1
+  produce md 1
   produce d 1
   const 3.59
 
@@ -51,6 +53,7 @@ reaction R4
 
 reaction R5
   consume S_A 1
+  produce S_A 1
   produce g_An 1
   const 0.0000912
 
@@ -132,6 +135,7 @@ reaction R18
 
 reaction R19
   consume D_A 1
+  produce D_A 1
   produce g_Cp 1
   const 0.019
 
@@ -213,26 +217,31 @@ reaction R32
 
 reaction R33
   consume D_C 1
+  produce D_C 1
   produce m_C 1
   const 0.0016
 
 reaction R34
   consume C_Cp 1
+  produce C_Cp 1
   produce m_C 1
   const 0.0352
 
 reaction R35
   consume C_Cp_Cn 1
+  produce C_Cp_Cn 1
   produce m_C 1
   const 0.00391
 
 reaction R36
   consume C_Cn 1
+  produce C_Cn 1
   produce m_C 1
   const 0.0001778
 
 reaction R37
   consume m_C 1
+  produce m_C 1
   produce Y_C 1
   const 1.22
 

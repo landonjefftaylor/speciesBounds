@@ -2,8 +2,8 @@
 class Reaction:
     def __init__(self, name):
         self.name = name
-        self.consume = []
-        self.produce = []
+        self.consume = [] # array of tuples (name, qty)
+        self.produce = [] # array of tuples (name, qty)
         self.const = 0.00
         # self.dep_executions = 0
 
@@ -21,6 +21,13 @@ class Reaction:
         # s = s+("\n")
         return self.name
     
+    # very basic catalyst function, relies on stoichiometry of 1
+    # may need to refine for higher and different stoichiometry
+    def is_catalyst(self):
+        for c in self.consume:
+            for p in self.produce:
+                if c[0] == p[0]:
+                    return True
 
 def parse_model(filename):
     init = dict()

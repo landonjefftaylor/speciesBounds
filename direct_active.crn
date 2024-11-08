@@ -29,7 +29,7 @@ species C_Cp_Cn init 0
 species m_C init 0
 species Y_C init 0
 
-target Y_C = 5
+target Y_C = 50
 
 reaction R1
   consume G_d 1
